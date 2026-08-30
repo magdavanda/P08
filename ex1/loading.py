@@ -6,7 +6,7 @@ def dependencies_check() -> bool:
 
     try:
         import pandas
-        print(f"[OK] pandas ({pandas.__version__}) - Data manipulation ready")
+        print(f" [OK] pandas ({pandas.__version__}) - Data manipulation ready")
     except ModuleNotFoundError:
         print(" [KO] pandas missing")
         check = False
@@ -14,7 +14,7 @@ def dependencies_check() -> bool:
     try:
         import numpy
         print(
-                f"[OK] numpy ({numpy.__version__}) "
+                f" [OK] numpy ({numpy.__version__}) "
                 f"- Numerical computation ready")
     except ModuleNotFoundError:
         print(" [KO] numpy missing")
@@ -23,7 +23,7 @@ def dependencies_check() -> bool:
     try:
         import matplotlib
         print(
-                f"[OK] matplotlib ({matplotlib.__version__}) "
+                f" [OK] matplotlib ({matplotlib.__version__}) "
                 f"- Visualization ready")
     except ModuleNotFoundError:
         print(" [KO] matplotlib missing")
@@ -39,14 +39,18 @@ def main() -> None:
         print("Processing 1000 data points...")
 
         import numpy
-        data_to_process: numpy.ndarray = numpy.random.randint(0, 100, (1000, 2))
+        scores: numpy.ndarray = numpy.random.randint(0, 100, 1000)
+        levels: numpy.ndarray = numpy.random.randint(0, 10, 1000)
 
         import pandas
         data_frame: pandas.DataFrame = pandas.DataFrame(
-            data_to_process,
-            columns=["score", "level"]
+            {
+                "score": scores,
+                "level": levels
+            }
         )
-        # max_score: int = data_frame["score"].max()
+        max_score: int = data_frame["score"].max()
+        max_level: int = data_frame["level"].max()
         # print(f"Max score: {max_score}")
         # print(data_frame)
 
@@ -56,6 +60,8 @@ def main() -> None:
         matplotlib.pyplot.title("Tournament statistics")
         matplotlib.pyplot.xlabel("Score")
         matplotlib.pyplot.ylabel("Players")
+        matplotlib.pyplot.figtext(0.01, 0.01, f"Max score: {max_score}")
+        matplotlib.pyplot.figtext(0.01, 0.05, f"Max level: {max_level}")
         file: str = "matrix_analysis.png"
         matplotlib.pyplot.savefig(file)
 
